@@ -1,9 +1,8 @@
 #ifndef CSQLRELATIONALMODEL_H
 #define CSQLRELATIONALMODEL_H
-#include <QSqlRelationalTableModel>
 #include <QLabel>
-class CSqlRelationalTableModel : public QSqlRelationalTableModel
-{
+#include <QSqlRelationalTableModel>
+class CSqlRelationalTableModel : public QSqlRelationalTableModel {
 private:
   QLabel *result_count_label;
 

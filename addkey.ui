@@ -62,7 +62,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QTextEdit" name="addkey_key_type"/>
+       <widget class="QLineEdit" name="addkey_key_type"/>
       </item>
      </layout>
     </item>
@@ -89,7 +89,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QTextEdit" name="addkey_key_room"/>
+       <widget class="QComboBox" name="addkey_room_dropdown"/>
       </item>
      </layout>
     </item>
@@ -143,7 +143,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QTextEdit" name="addkey_storage_location"/>
+       <widget class="QLineEdit" name="addkey_storage_location"/>
       </item>
      </layout>
     </item>

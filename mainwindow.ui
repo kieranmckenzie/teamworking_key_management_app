@@ -93,6 +93,19 @@
      </rect>
     </property>
    </widget>
+   <widget class="QPushButton" name="main_addPermissionGroup">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>460</y>
+      <width>161</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add Permission Group</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -100,7 +113,7 @@
      <x>0</x>
      <y>0</y>
      <width>771</width>
-     <height>28</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>

@@ -28,14 +28,17 @@ SOURCES += \
         mainwindow.cpp \
     dbhandle.cpp \
     csqlrelationaltablemodel.cpp \
-    addkey.cpp
+    addkey.cpp \
+    createpermissiongroup.cpp
 
 HEADERS += \
         mainwindow.h \
     dbhandle.h \
     csqlrelationaltablemodel.h \
-    addkey.h
+    addkey.h \
+    createpermissiongroup.h
 
 FORMS += \
         mainwindow.ui \
-    addkey.ui
+    addkey.ui \
+    createpermissiongroup.ui
