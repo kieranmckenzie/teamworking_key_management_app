@@ -39,6 +39,7 @@ AddKey::~AddKey() {
 }
 
 bool AddKey::validate_input(QString *error) {
+  // Todo
   *error = "No error";
   return true;
 }
@@ -61,12 +62,11 @@ void AddKey::on_buttonBox_accepted() {
   q.bindValue(":storage_location", this->ui->addkey_storage_location->text());
   {
     int dropdown_index = this->ui->addkey_user_dropdown->currentIndex();
-    q.bindValue(":current_holder",
-                (int)this->user_dropdown_id_vec[dropdown_index]);
+    q.bindValue(":current_holder", this->user_dropdown_id_vec[dropdown_index]);
   }
   {
     int dropdown_index = this->ui->addkey_room_dropdown->currentIndex();
-    q.bindValue(":key_room", (int)this->room_dropdown_id_vec[dropdown_index]);
+    q.bindValue(":key_room", this->room_dropdown_id_vec[dropdown_index]);
   }
   q.exec();
   std::cout << q.lastError().text().toStdString() << std::endl;

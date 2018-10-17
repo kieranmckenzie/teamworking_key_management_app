@@ -1,10 +1,12 @@
 #include "createpermissiongroup.h"
 #include "ui_createpermissiongroup.h"
 bool CreatePermissionGroup::validate_name_input(QString *error) {
+  // Todo
   *error = "No error";
   return true;
 }
 bool CreatePermissionGroup::validate_dropdown_input(QString *error) {
+  // Todo
   *error = "No error";
   return true;
 }

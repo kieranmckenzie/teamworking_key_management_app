@@ -30,11 +30,17 @@
    <widget class="QComboBox" name="main_comboBox">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>252</x>
       <y>0</y>
-      <width>103</width>
+      <width>161</width>
       <height>36</height>
      </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>161</width>
+      <height>36</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="main_pushButton">
