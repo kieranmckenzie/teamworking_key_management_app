@@ -60,27 +60,25 @@ void MainWindow::on_main_addPermissionGroup_clicked() {
 }
 void MainWindow::on_main_filterButton_clicked() {
   QString s;
+  QString t = this->ui->main_searchEntry->text();
   switch (from_qstring(this->ui->main_comboBox->currentText())) {
   case Any:
-    s = "key_type LIKE '%" + this->ui->main_searchEntry->text() + "%' " +
-        "OR relTblAl_2.name LIKE '%" + this->ui->main_searchEntry->text() +
-        "%' " + "OR relTblAl_3.name LIKE '%" +
-        this->ui->main_searchEntry->text() + "%' " +
-        "OR storage_location LIKE '%" + this->ui->main_searchEntry->text() +
-        "%' ";
+    s = "key_type LIKE '%" + t + "%' " + "OR relTblAl_2.name LIKE '%" + t +
+        "%' " + "OR relTblAl_3.name LIKE '%" + t + "%' " +
+        "OR storage_location LIKE '%" + t + "%' ";
     break;
   case KeyType:
 
-    s = "key_type LIKE '%" + this->ui->main_searchEntry->text() + "%'";
+    s = "key_type LIKE '%" + t + "%'";
     break;
   case Room:
-    s = "relTblAl_2.name LIKE '%" + this->ui->main_searchEntry->text() + "%'";
+    s = "relTblAl_2.name LIKE '%" + t + "%'";
     break;
   case CurrentHolder:
-    s = "relTblAl_3.name LIKE '%" + this->ui->main_searchEntry->text() + "%'";
+    s = "relTblAl_3.name LIKE '%" + t + "%'";
     break;
   case StorageLocation:
-    s = "storage_location LIKE '%" + this->ui->main_searchEntry->text() + "%'";
+    s = "storage_location LIKE '%" + t + "%'";
     break;
   }
   this->model->setFilter(s);
