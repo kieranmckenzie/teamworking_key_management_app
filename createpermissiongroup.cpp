@@ -9,9 +9,11 @@ bool CreatePermissionGroup::validate_dropdown_input(QString *error) {
   return true;
 }
 
-CreatePermissionGroup::CreatePermissionGroup(QWidget *parent)
+CreatePermissionGroup::CreatePermissionGroup(QSqlRelationalTableModel *m,
+                                             QWidget *parent)
     : QDialog(parent), ui(new Ui::CreatePermissionGroup) {
   ui->setupUi(this);
+  this->main_window_model = m;
 
   this->ui->createpermissiongroup_listView->setModel(&this->string_list_model);
   QSqlQuery r("SELECT id, name FROM rooms");
@@ -26,7 +28,12 @@ CreatePermissionGroup::CreatePermissionGroup(QWidget *parent)
   }
 }
 
-CreatePermissionGroup::~CreatePermissionGroup() { delete ui; }
+CreatePermissionGroup::~CreatePermissionGroup() {
+  if (!this->main_window_model->select()) {
+    // Todo
+  }
+  delete ui;
+}
 
 void CreatePermissionGroup::on_buttonBox_accepted() {
   QString str;
@@ -38,6 +45,7 @@ void CreatePermissionGroup::on_buttonBox_accepted() {
   q.prepare("INSERT INTO permission_groups (name) VALUES (:name)");
   q.bindValue(":name", this->ui->createpermissiongroup_lineEdit->text());
   q.exec();
+  this->deleteLater();
 }
 
 void CreatePermissionGroup::on_createpermissiongroup_addroom_clicked() {
@@ -47,3 +55,5 @@ void CreatePermissionGroup::on_createpermissiongroup_addroom_clicked() {
   this->room_dropdown_id_vec.push_back(offset);
   this->ui->createpermissiongroup_rooms->removeItem(offset);
 }
+
+void CreatePermissionGroup::on_buttonBox_rejected() { this->deleteLater(); }

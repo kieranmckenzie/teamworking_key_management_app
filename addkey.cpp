@@ -1,8 +1,10 @@
 #include "addkey.h"
 #include "ui_addkey.h"
 
-AddKey::AddKey(QWidget *parent) : QDialog(parent), ui(new Ui::AddKey) {
+AddKey::AddKey(QSqlRelationalTableModel *m, QWidget *parent)
+    : QDialog(parent), ui(new Ui::AddKey) {
   ui->setupUi(this);
+  this->main_window_model = m;
   {
     QSqlQuery q("SELECT id, name FROM users");
     std::cout << "Length of return is: " << q.size() << std::endl;
@@ -28,7 +30,13 @@ AddKey::AddKey(QWidget *parent) : QDialog(parent), ui(new Ui::AddKey) {
   }
 }
 
-AddKey::~AddKey() { delete ui; }
+AddKey::~AddKey() {
+  std::cout << "Addkey destructor fired" << std::endl;
+  if (!this->main_window_model->select()) {
+    // Todo
+  }
+  delete ui;
+}
 
 bool AddKey::validate_input(QString *error) {
   *error = "No error";
@@ -62,4 +70,7 @@ void AddKey::on_buttonBox_accepted() {
   }
   q.exec();
   std::cout << q.lastError().text().toStdString() << std::endl;
+  this->deleteLater();
 }
+
+void AddKey::on_buttonBox_rejected() { this->deleteLater(); }

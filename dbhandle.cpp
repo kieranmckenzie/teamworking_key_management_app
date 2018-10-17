@@ -1,5 +1,6 @@
 #include "dbhandle.h"
 #include <iostream>
+
 DBHandle::DBHandle() {
   QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
   db.setHostName("maegis.net");
