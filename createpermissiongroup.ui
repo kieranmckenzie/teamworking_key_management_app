@@ -52,9 +52,9 @@
   <widget class="QComboBox" name="createpermissiongroup_rooms">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>278</x>
      <y>130</y>
-     <width>79</width>
+     <width>131</width>
      <height>28</height>
     </rect>
    </property>
@@ -69,7 +69,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>PushButton</string>
+    <string>Add</string>
    </property>
   </widget>
   <widget class="QPushButton" name="createpermissiongroup_remove">

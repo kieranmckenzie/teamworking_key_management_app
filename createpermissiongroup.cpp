@@ -16,8 +16,9 @@ CreatePermissionGroup::CreatePermissionGroup(QSqlRelationalTableModel *m,
     : QDialog(parent), ui(new Ui::CreatePermissionGroup) {
   ui->setupUi(this);
   this->main_window_model = m;
-
+  this->string_list_model.setStringList(this->string_list);
   this->ui->createpermissiongroup_listView->setModel(&this->string_list_model);
+
   QSqlQuery r("SELECT id, name FROM rooms");
 
   int r_id_offset = r.record().indexOf("id");
@@ -56,6 +57,7 @@ void CreatePermissionGroup::on_createpermissiongroup_addroom_clicked() {
       this->ui->createpermissiongroup_rooms->currentText());
   this->room_dropdown_id_vec.push_back(offset);
   this->ui->createpermissiongroup_rooms->removeItem(offset);
+  this->string_list_model.setStringList(this->string_list);
 }
 
 void CreatePermissionGroup::on_buttonBox_rejected() { this->deleteLater(); }
