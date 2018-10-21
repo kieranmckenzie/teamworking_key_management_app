@@ -87,11 +87,13 @@ MainWindow::MainWindow(QWidget *parent)
 
   ui->main_keysButton->setCheckable(true);
   ui->main_peopleButton->setCheckable(true);
+  ui->main_leaseButton->setCheckable(true);
   ui->main_keysButton->setChecked(true);
   ui->main_peopleButton->setChecked(false);
+  ui->main_leaseButton->setChecked(false);
   this->tab_buttons.push_back(this->ui->main_keysButton);
   this->tab_buttons.push_back(this->ui->main_peopleButton);
-  this->tab_buttons.push_back(this->ui->main_peopleButton);
+  this->tab_buttons.push_back(this->ui->main_leaseButton);
 
   std::cout << "Dank memes" << std::endl;
 }
