@@ -1,12 +1,20 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#define SQL_STR                          "SELECT leases.id, leases.key_id, rooms.name, users.name, leases.start_ts, leases.end_ts  FROM leases JOIN key_data ON leases.key_id = key_data.id JOIN users on key_data.current_holder = users.id JOIN rooms ON key_data.key_room = rooms.id "
-#define SQL_STR_SEMICOLON                 "SELECT leases.id, leases.key_id, rooms.name, users.name, leases.start_ts, leases.end_ts  FROM leases JOIN key_data ON leases.key_id = key_data.id JOIN users on key_data.current_holder = users.id JOIN rooms ON key_data.key_room = rooms.id ;"
-#define SQL_STR_QSTRING                   QString(SQL_STR)
-#define SQL_STR_SEMICOLON_QSTRING         QString(SQL_STR_SEMICOLON)
+#define SQL_STR                                                                \
+  "SELECT leases.id, leases.key_id, rooms.name, users.name, leases.start_ts, " \
+  "leases.end_ts  FROM leases JOIN key_data ON leases.key_id = key_data.id "   \
+  "JOIN users on key_data.current_holder = users.id JOIN rooms ON "            \
+  "key_data.key_room = rooms.id "
+#define SQL_STR_SEMICOLON                                                      \
+  "SELECT leases.id, leases.key_id, rooms.name, users.name, leases.start_ts, " \
+  "leases.end_ts  FROM leases JOIN key_data ON leases.key_id = key_data.id "   \
+  "JOIN users on key_data.current_holder = users.id JOIN rooms ON "            \
+  "key_data.key_room = rooms.id ;"
+#define SQL_STR_QSTRING QString(SQL_STR)
+#define SQL_STR_SEMICOLON_QSTRING QString(SQL_STR_SEMICOLON)
 void MainWindow::populate_table(TableSelection const t) {
   this->model = new CSqlRelationalTableModel(ui->main_result_count_label, this);
-  //this->model->setEditStrategy(QSqlTableModel::OnFieldChange);
+  // this->model->setEditStrategy(QSqlTableModel::OnFieldChange);
   this->ui->main_tableView->setModel(this->model);
   switch (t) {
   case TableSelection::Keys:
@@ -15,6 +23,9 @@ void MainWindow::populate_table(TableSelection const t) {
   case TableSelection::People:
     this->load_people_table();
     break;
+  case TableSelection::Leases:
+      this->load_leases_table();
+      break;
   default:
     this->load_keys_table();
     break;
@@ -37,22 +48,23 @@ void MainWindow::load_people_table() {
   this->model->setHeaderData(0, Qt::Horizontal, tr("Id"));
   this->model->setHeaderData(1, Qt::Horizontal, tr("Name"));
   this->setup_search_combobox(TableSelection::People);
-    this->current_table_selection = TableSelection::People;
+  this->current_table_selection = TableSelection::People;
 }
 
-void MainWindow::load_leases_table()
-{
+void MainWindow::load_leases_table() {
 
- this->model->setTable("users");
+  this->model->setTable("leases");
   this->model->setHeaderData(0, Qt::Horizontal, tr("Id"));
   this->model->setHeaderData(1, Qt::Horizontal, tr("Username"));
+    this->model->setHeaderData(2, Qt::Horizontal, tr("Another"));
+    this->model->setHeaderData(3, Qt::Horizontal, tr("Another"));
+    this->model->setHeaderData(4, Qt::Horizontal, tr("Another"));
+    this->model->setHeaderData(5, Qt::Horizontal, tr("Another"));
   this->model->setRelation(1, QSqlRelation("users", "id", "name"));
   this->model->setRelation(2, QSqlRelation("rooms", "id", "name"));
-    this->model->setHeaderData(2, Qt::Horizontal, tr("Rooms"));
-   this->setup_search_combobox(TableSelection::Leases);
-    this->current_table_selection = TableSelection::Leases;
-
-
+  this->model->setHeaderData(2, Qt::Horizontal, tr("Rooms"));
+  this->setup_search_combobox(TableSelection::Leases);
+  this->current_table_selection = TableSelection::Leases;
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -132,46 +144,45 @@ void MainWindow::gen_search_sql_query_people() {
   std::cout << this->model->query().lastQuery().toStdString() << std::endl;
 }
 
-void MainWindow::gen_search_sql_query_leases()
-{
-    QString s;
-    QString t = this->ui->main_searchEntry->text();
-    switch (this->from_qstring(this->ui->main_comboBox->currentText())) {
-    case Any:
-        s = SQL_STR_QSTRING + "WHERE users.name LIKE '%" + t + "%' OR rooms.name LIKE '%" + t + "%' OR leases.key_id LIKE '%" + t +  "%' OR leases.id LIKE '%" + t + "%';";
-        break;
-    case Name:
-        s =  SQL_STR_QSTRING + "WHERE users.name LIKE '%" + t + "%';";
-        break;
-    case Room:
-        s =  SQL_STR_QSTRING + "WHERE rooms.name LIKE '%" + t + "%';";
-        break;
-    case KeyID:
+void MainWindow::gen_search_sql_query_leases() {
+  QString s;
+  QString t = this->ui->main_searchEntry->text();
+  switch (this->from_qstring(this->ui->main_comboBox->currentText())) {
+  case Any:
+    s = "users.name LIKE '%" + t + "%' OR rooms.name LIKE '%" + t +
+        "%' OR leases.key_id LIKE '%" + t + "%' OR leases.id LIKE '%" + t +
+        "%';";
+    break;
+  case Name:
+    s = "users.name LIKE '%" + t + "%';";
+    break;
+  case Room:
+    s = "rooms.name LIKE '%" + t + "%';";
+    break;
+  case KeyID:
 
-        s =  SQL_STR_QSTRING+ "WHERE leases.key_id IS '%" + t + "%';";
-        break;
-        //Todo
-        //Accomodate alternative timedate formats
-    case BeforeStart:
-        s =  SQL_STR_QSTRING + "WHERE leases.start_ts LESS THAN '%" + t + "%';";
-        break;
-    case AfterStart:
-        s =  SQL_STR_QSTRING + "WHERE leases.start_ts GREATER THAN '%" + t + "%';";
-        break;
+    s = "leases.key_id IS '%" + t + "%';";
+    break;
+    // Todo
+    // Accomodate alternative timedate formats
+  case BeforeStart:
+    s = " leases.start_ts LESS THAN '%" + t + "%';";
+    break;
+  case AfterStart:
+    s = "leases.start_ts GREATER THAN '%" + t + "%';";
+    break;
 
-     case BeforeEnd:
-        s =  SQL_STR_QSTRING + "WHERE leases.end_ts LESS THAN '%" + t + "%';";
-        break;
-    case AfterEnd:
-        s =  SQL_STR_QSTRING + "WHERE leases.end_ts GREATER THAN '%" + t + "%';";
-        break;
-        //
+  case BeforeEnd:
+    s = "leases.end_ts LESS THAN '%" + t + "%';";
+    break;
+  case AfterEnd:
+    s = "leases.end_ts GREATER THAN '%" + t + "%';";
+    break;
+    //
+  };
+  this->model->setFilter(s);
 
-    };
-   ((QSqlTableModel*)((QSqlRelationalTableModel*)(&this->model)))->setQuery(QSqlQuery(s));
-
-
-
+  std::cout << this->model->query().lastQuery().toStdString() << std::endl;
 }
 
 void MainWindow::gen_search_sql_query_keys() {
@@ -198,39 +209,36 @@ void MainWindow::gen_search_sql_query_keys() {
     s = "storage_location LIKE '%" + t + "%'";
     break;
   default:
-      std::cout << "139 err" << std::endl;
-      break;
+    std::cout << "139 err" << std::endl;
+    break;
   }
   this->model->setFilter(s);
   std::cout << this->model->query().lastQuery().toStdString() << std::endl;
 }
 void MainWindow::search() {
-   switch (this->current_table_selection) {
+  switch (this->current_table_selection) {
   case Keys:
     this->gen_search_sql_query_keys();
     break;
   case People:
     this->gen_search_sql_query_people();
     break;
-   case Leases:
+  case Leases:
     this->gen_search_sql_query_leases();
-       break;
+    break;
   default:
-    std::cout << "Error" << std::endl;
+    std::cout << "Error1" << std::endl;
     break;
   }
-
 }
-void MainWindow::on_main_filterButton_clicked() {
-    this->search();
-}
+void MainWindow::on_main_filterButton_clicked() { this->search(); }
 
 void MainWindow::setup_search_combobox(TableSelection const t) {
-    //hack
-    //main_comboBox->count() not right?
-    for (int i =0; i<50; i++) {
-        ui->main_comboBox->removeItem(0);
-    }
+  // hack
+  // main_comboBox->count() not right?
+  for (int i = 0; i < 50; i++) {
+    ui->main_comboBox->removeItem(0);
+  }
   switch (t) {
   case TableSelection::Keys:
     this->setup_keys_search_combobox();
@@ -238,12 +246,15 @@ void MainWindow::setup_search_combobox(TableSelection const t) {
   case TableSelection::People:
     this->setup_people_search_combobox();
     break;
+  case TableSelection::Leases:
+      this->setup_leases_search_combobox();
+      break;
   default:
-    std::cout << "Error" << std::endl;
+    std::cout << "Error2" << std::endl;
     abort();
     break;
   }
-  //ui->main_comboBox->currentText() = "";
+  // ui->main_comboBox->currentText() = "";
 }
 
 void MainWindow::setup_keys_search_combobox() {
@@ -254,23 +265,20 @@ void MainWindow::setup_keys_search_combobox() {
   ui->main_comboBox->addItem("Storage Location");
 }
 void MainWindow::setup_people_search_combobox() {
-    ui->main_comboBox->addItem("Name");
+  ui->main_comboBox->addItem("Name");
 }
 
-void MainWindow::setup_leases_search_combobox()
-{
-    ui->main_comboBox->addItem("Any");
-    ui->main_comboBox->addItem("Lease Id");
-    ui->main_comboBox->addItem("Key ID");
-    ui->main_comboBox->addItem("Leased to");
-    ui->main_comboBox->addItem("Room");
-    ui->main_comboBox->addItem("Lease started since");
-    ui->main_comboBox->addItem("Leased started before");
-    ui->main_comboBox->addItem("Leased ended since");
-    ui->main_comboBox->addItem("Leased ended before");
-
+void MainWindow::setup_leases_search_combobox() {
+  ui->main_comboBox->addItem("Any");
+  ui->main_comboBox->addItem("Lease Id");
+  ui->main_comboBox->addItem("Key ID");
+  ui->main_comboBox->addItem("Leased to");
+  ui->main_comboBox->addItem("Room");
+  ui->main_comboBox->addItem("Lease started since");
+  ui->main_comboBox->addItem("Leased started before");
+  ui->main_comboBox->addItem("Leased ended since");
+  ui->main_comboBox->addItem("Leased ended before");
 }
-
 
 inline FilterSelection MainWindow::from_qstring(QString const qs) const {
   if (qs == "Any")
@@ -279,33 +287,24 @@ inline FilterSelection MainWindow::from_qstring(QString const qs) const {
     return KeyType;
   if (qs == "Room")
     return Room;
-  if (qs == "Current Holder" || qa == "Leased to")
+  if (qs == "Current Holder" || qs == "Leased to")
     return CurrentHolder;
   if (qs == "Storage Location")
     return StorageLocation;
   if (qs == "Name")
-      return Name;
+    return Name;
   if (qs == "Started since")
-      return BeforeEnd;
+    return BeforeEnd;
   if (qs == "Started before")
-        return BeforeStart;
+    return BeforeStart;
   if (qs == "Ended since")
-      return AfterEnd;
+    return AfterEnd;
   if (qs == "Ended before")
-      return AfterStart;
-  if (qs == "KeyID" || qs ==  "Key ID")
-      return KeyID;
-// Crash fix?
-    ui->main_comboBox->addItem("Any");
-    ui->main_comboBox->addItem("Lease Id");
-    ui->main_comboBox->addItem("Key ID");
-    ui->main_comboBox->addItem("Leased to");
-    ui->main_comboBox->addItem("Room");
-    ui->main_comboBox->addItem("Started since");
-    ui->main_comboBox->addItem("Started before");
-    ui->main_comboBox->addItem("Ended since");
-    ui->main_comboBox->addItem("Ended before");
-
+    return AfterStart;
+  if (qs == "KeyID" || qs == "Key ID")
+    return KeyID;
+  // Crash fix?
+  abort();
 }
 
 void MainWindow::on_main_pushButtonClearSearch_clicked() {
@@ -330,23 +329,18 @@ void MainWindow::on_main_peopleButton_clicked() {
     this->release_all_tabs();
     ui->main_peopleButton->setChecked(true);
     this->populate_table(TableSelection::People);
-   if (! this->model->select())
-       std::cout << "Error selecting" << std::cout;
+    this->model->select();
   }
 }
 
-void MainWindow::on_main_searchEntry_returnPressed()
-{
-        this->search();
-}
+void MainWindow::on_main_searchEntry_returnPressed() { this->search(); }
 
-void MainWindow::on_main_leaseButton_clicked()
-{
+void MainWindow::on_main_leaseButton_clicked() {
 
-    if (this->current_table_selection != TableSelection::Leases) {
-        this->release_all_tabs();
-        ui->main_leaseButton->setChecked(true);
-        this->populate_table(TableSelection::Leases);
-        this->model->select();
-    }
+  if (this->current_table_selection != TableSelection::Leases) {
+    this->release_all_tabs();
+    ui->main_leaseButton->setChecked(true);
+    this->populate_table(TableSelection::Leases);
+    this->model->select();
+  }
 }

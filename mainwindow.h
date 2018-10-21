@@ -6,13 +6,25 @@
 #include "csqlrelationaltablemodel.h"
 #include "dbhandle.h"
 #include <QMainWindow>
+#include <QPushButton>
 #include <iostream>
 #include <vector>
-#include <QPushButton>
 namespace Ui {
 class MainWindow;
 }
-enum FilterSelection { Any, KeyType, Room, CurrentHolder, StorageLocation, Name, BeforeStart, AfterStart, BeforeEnd, AfterEnd, KeyID };
+enum FilterSelection {
+  Any,
+  KeyType,
+  Room,
+  CurrentHolder,
+  StorageLocation,
+  Name,
+  BeforeStart,
+  AfterStart,
+  BeforeEnd,
+  AfterEnd,
+  KeyID
+};
 enum TableSelection { Keys, People, Leases };
 enum HeaderSortState { None, Ascending, Descending };
 class MainWindow : public QMainWindow {
@@ -49,18 +61,18 @@ private:
   void setup_search_combobox(TableSelection const);
   FilterSelection from_qstring(QString const) const;
   void populate_table(TableSelection const);
-  //load tables
+  // load tables
   void load_keys_table();
   void load_people_table();
   void load_leases_table();
-  //refresh combobox
+  // refresh combobox
   void setup_keys_search_combobox();
   void setup_people_search_combobox();
   void setup_leases_search_combobox();
   TableSelection current_table_selection;
-  std::vector<QPushButton*> tab_buttons;
+  std::vector<QPushButton *> tab_buttons;
   void release_all_tabs();
-  //generate sql queries
+  // generate sql queries
   void gen_search_sql_query_keys();
   void gen_search_sql_query_people();
   void gen_search_sql_query_leases();
