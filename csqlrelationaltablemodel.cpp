@@ -11,9 +11,7 @@ bool CSqlRelationalTableModel::select() {
   return result;
 }
 
-CSqlRelationalTableModel::~CSqlRelationalTableModel()
-{
+CSqlRelationalTableModel::~CSqlRelationalTableModel() {
 
-    this->result_count_label = nullptr;
-
+  this->result_count_label = nullptr;
 }

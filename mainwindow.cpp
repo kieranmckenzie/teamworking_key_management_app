@@ -1,31 +1,19 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#define SQL_STR                                                                \
-  "SELECT leases.id, leases.key_id, rooms.name, users.name, leases.start_ts, " \
-  "leases.end_ts  FROM leases JOIN key_data ON leases.key_id = key_data.id "   \
-  "JOIN users on key_data.current_holder = users.id JOIN rooms ON "            \
-  "key_data.key_room = rooms.id "
-#define SQL_STR_SEMICOLON                                                      \
-  "SELECT leases.id, leases.key_id, rooms.name, users.name, leases.start_ts, " \
-  "leases.end_ts  FROM leases JOIN key_data ON leases.key_id = key_data.id "   \
-  "JOIN users on key_data.current_holder = users.id JOIN rooms ON "            \
-  "key_data.key_room = rooms.id ;"
-#define SQL_STR_QSTRING QString(SQL_STR)
-#define SQL_STR_SEMICOLON_QSTRING QString(SQL_STR_SEMICOLON)
 void MainWindow::populate_table(TableSelection const t) {
   this->model = new CSqlRelationalTableModel(ui->main_result_count_label, this);
   // this->model->setEditStrategy(QSqlTableModel::OnFieldChange);
   this->ui->main_tableView->setModel(this->model);
   switch (t) {
-  case TableSelection::Keys:
+  case Keys:
     this->load_keys_table();
     break;
-  case TableSelection::People:
+  case People:
     this->load_people_table();
     break;
-  case TableSelection::Leases:
-      this->load_leases_table();
-      break;
+  case Leases:
+    this->load_leases_table();
+    break;
   default:
     this->load_keys_table();
     break;
@@ -56,10 +44,10 @@ void MainWindow::load_leases_table() {
   this->model->setTable("leases");
   this->model->setHeaderData(0, Qt::Horizontal, tr("Id"));
   this->model->setHeaderData(1, Qt::Horizontal, tr("Username"));
-    this->model->setHeaderData(2, Qt::Horizontal, tr("Another"));
-    this->model->setHeaderData(3, Qt::Horizontal, tr("Another"));
-    this->model->setHeaderData(4, Qt::Horizontal, tr("Another"));
-    this->model->setHeaderData(5, Qt::Horizontal, tr("Another"));
+  this->model->setHeaderData(2, Qt::Horizontal, tr("Another"));
+  this->model->setHeaderData(3, Qt::Horizontal, tr("Another"));
+  this->model->setHeaderData(4, Qt::Horizontal, tr("Another"));
+  this->model->setHeaderData(5, Qt::Horizontal, tr("Another"));
   this->model->setRelation(1, QSqlRelation("users", "id", "name"));
   this->model->setRelation(2, QSqlRelation("rooms", "id", "name"));
   this->model->setHeaderData(2, Qt::Horizontal, tr("Rooms"));
@@ -150,16 +138,20 @@ void MainWindow::gen_search_sql_query_leases() {
   QString s;
   QString t = this->ui->main_searchEntry->text();
   switch (this->from_qstring(this->ui->main_comboBox->currentText())) {
+  // SELECT leases."id",relTblAl_1.name AS
+  // users_name_2,relTblAl_2.name,leases."end_ts" FROM leases,users
+  // relTblAl_1,rooms relTblAl_2 WHERE (leases."key_id"=relTblAl_1.id AND
+  // leases."start_ts"=relTblAl_2.id)
   case Any:
-    s = "users.name LIKE '%" + t + "%' OR rooms.name LIKE '%" + t +
+    s = "relTblAl_1.name LIKE '%" + t + "%' OR relTblAl_2.name LIKE '%" + t +
         "%' OR leases.key_id LIKE '%" + t + "%' OR leases.id LIKE '%" + t +
         "%';";
     break;
-  case Name:
-    s = "users.name LIKE '%" + t + "%';";
+  case CurrentHolder:
+    s = "relTblAl_1.name LIKE '%" + t + "%';";
     break;
   case Room:
-    s = "rooms.name LIKE '%" + t + "%';";
+    s = "relTblAl_2.name LIKE '%" + t + "%';";
     break;
   case KeyID:
 
@@ -181,10 +173,15 @@ void MainWindow::gen_search_sql_query_leases() {
     s = "leases.end_ts GREATER THAN '%" + t + "%';";
     break;
     //
+  default:
+    std::cout << "185" << std::endl;
+    abort();
   };
   this->model->setFilter(s);
 
   std::cout << this->model->query().lastQuery().toStdString() << std::endl;
+  std::cout << this->model->query().lastError().text().toStdString()
+            << std::endl;
 }
 
 void MainWindow::gen_search_sql_query_keys() {
@@ -249,8 +246,8 @@ void MainWindow::setup_search_combobox(TableSelection const t) {
     this->setup_people_search_combobox();
     break;
   case TableSelection::Leases:
-      this->setup_leases_search_combobox();
-      break;
+    this->setup_leases_search_combobox();
+    break;
   default:
     std::cout << "Error2" << std::endl;
     abort();
@@ -272,14 +269,14 @@ void MainWindow::setup_people_search_combobox() {
 
 void MainWindow::setup_leases_search_combobox() {
   ui->main_comboBox->addItem("Any");
-  ui->main_comboBox->addItem("Lease Id");
+  // ui->main_comboBox->addItem("Lease Id");
   ui->main_comboBox->addItem("Key ID");
   ui->main_comboBox->addItem("Leased to");
   ui->main_comboBox->addItem("Room");
-  ui->main_comboBox->addItem("Lease started since");
-  ui->main_comboBox->addItem("Leased started before");
-  ui->main_comboBox->addItem("Leased ended since");
-  ui->main_comboBox->addItem("Leased ended before");
+  ui->main_comboBox->addItem("Started since");
+  ui->main_comboBox->addItem("Started before");
+  ui->main_comboBox->addItem("Ended since");
+  ui->main_comboBox->addItem("Ended before");
 }
 
 inline FilterSelection MainWindow::from_qstring(QString const qs) const {
@@ -306,6 +303,8 @@ inline FilterSelection MainWindow::from_qstring(QString const qs) const {
   if (qs == "KeyID" || qs == "Key ID")
     return KeyID;
   // Crash fix?
+  std::cout << "Unable to determine switch for " << qs.toStdString()
+            << std::endl;
   abort();
 }
 
