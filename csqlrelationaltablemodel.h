@@ -9,6 +9,9 @@ private:
 public:
   explicit CSqlRelationalTableModel(QLabel *, QObject * = nullptr);
   bool select();
+
+
+  ~CSqlRelationalTableModel();
 };
 
 #endif // CSQLRELATIONALMODEL_H

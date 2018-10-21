@@ -10,3 +10,10 @@ bool CSqlRelationalTableModel::select() {
   this->result_count_label->setText(QString::number(this->rowCount()));
   return result;
 }
+
+CSqlRelationalTableModel::~CSqlRelationalTableModel()
+{
+
+    this->result_count_label = nullptr;
+
+}
