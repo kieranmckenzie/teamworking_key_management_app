@@ -47,6 +47,21 @@ void CreatePermissionGroup::on_buttonBox_accepted() {
   QSqlQuery q;
   q.prepare("INSERT INTO permission_groups (name) VALUES (:name)");
   q.bindValue(":name", this->ui->createpermissiongroup_lineEdit->text());
+  // Start Saftey Check
+  std::string checkerPhrase (this->ui->createpermissiongroup_lineEdit->text().toStdString());
+  std::string checkerComparisonArray[21] = {"TABLE", "Table", "table", "INTO", "Into", "into", "FROM", "From", "from", "WHERE", "Where", "where", "*", "+", "-", "DROP", "Drop", "drop", "DELETE", "Delete", "delete"}; // SQL command array I assume theres a library for this but ehh, and im sure theres a way to do this case insensitivly
+
+  for (const std::string &text : checkerComparisonArray){
+    if (checkerPhrase.find(text) != std::string::npos) {
+            std::cout << "checkerPhrase" << "\n";
+            std::cout << text << " found" << "\n";
+            return;
+        } else {
+            std::cout << "checkerPhrase" << "\n";
+            std::cout << text << " not found" << "\n";
+    }
+  }
+  // End Saftey Check
   q.exec();
   this->deleteLater();
 }
