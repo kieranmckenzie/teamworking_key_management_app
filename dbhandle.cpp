@@ -10,8 +10,6 @@ DBHandle::DBHandle() {
 
   if (!db.open()) {
     std::cout << db.lastError().text().toStdString() << std::endl;
-  } else {
-      std::cout << "Successful database connection established" << std::endl;
   }
 
   QStringList tables = db.tables();
