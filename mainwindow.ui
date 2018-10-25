@@ -18,9 +18,9 @@
     <property name="geometry">
      <rect>
       <x>600</x>
-      <y>0</y>
+      <y>5</y>
       <width>161</width>
-      <height>36</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="maximumSize">
@@ -33,23 +33,23 @@
    <widget class="QPushButton" name="main_pushButton">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>460</y>
+      <x>10</x>
+      <y>439</y>
       <width>92</width>
-      <height>36</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>Add key</string>
+     <string>Add Key</string>
     </property>
    </widget>
    <widget class="QLabel" name="main_result_count_label">
     <property name="geometry">
      <rect>
-      <x>620</x>
-      <y>480</y>
+      <x>410</x>
+      <y>439</y>
       <width>63</width>
-      <height>20</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -69,8 +69,8 @@
    <widget class="QPushButton" name="main_addPermissionGroup">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>460</y>
+      <x>230</x>
+      <y>439</y>
       <width>161</width>
       <height>31</height>
      </rect>
@@ -83,7 +83,7 @@
     <property name="geometry">
      <rect>
       <x>890</x>
-      <y>0</y>
+      <y>7</y>
       <width>84</width>
       <height>28</height>
      </rect>
@@ -96,7 +96,7 @@
     <property name="geometry">
      <rect>
       <x>770</x>
-      <y>0</y>
+      <y>7</y>
       <width>113</width>
       <height>28</height>
      </rect>
@@ -106,7 +106,7 @@
     <property name="geometry">
      <rect>
       <x>980</x>
-      <y>0</y>
+      <y>7</y>
       <width>84</width>
       <height>28</height>
      </rect>
@@ -118,8 +118,8 @@
    <widget class="QPushButton" name="main_keysButton">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>10</y>
+      <x>10</x>
+      <y>8</y>
       <width>84</width>
       <height>28</height>
      </rect>
@@ -132,10 +132,13 @@
     <property name="geometry">
      <rect>
       <x>110</x>
-      <y>10</y>
+      <y>8</y>
       <width>84</width>
       <height>28</height>
      </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
     </property>
     <property name="text">
      <string>People</string>
@@ -144,14 +147,40 @@
    <widget class="QPushButton" name="main_leaseButton">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>10</y>
+      <x>210</x>
+      <y>8</y>
       <width>84</width>
       <height>28</height>
      </rect>
     </property>
     <property name="text">
      <string>Leases</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="main_test">
+    <property name="geometry">
+     <rect>
+      <x>990</x>
+      <y>438</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Test</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="main_pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>440</y>
+      <width>92</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add Person</string>
     </property>
    </widget>
   </widget>
@@ -161,7 +190,7 @@
      <x>0</x>
      <y>0</y>
      <width>1100</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

@@ -1,5 +1,11 @@
 #include "addkey.h"
 #include "ui_addkey.h"
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <locale>
+#include <algorithm>
+
 
 AddKey::AddKey(QSqlRelationalTableModel *m, QWidget *parent)
     : QDialog(parent), ui(new Ui::AddKey) {
@@ -55,7 +61,6 @@ void AddKey::on_buttonBox_accepted() {
       "INSERT INTO key_data ( key_type, key_room, current_holder, "
       "storage_location)"
       "VALUES (:key_type, :key_room, :current_holder, :storage_location)");
-
   q.bindValue(":key_type", this->ui->addkey_key_type->text());
   // q.bindValue(":key_room", this->ui->addkey_key_room->text());
 
@@ -68,6 +73,22 @@ void AddKey::on_buttonBox_accepted() {
     int dropdown_index = this->ui->addkey_room_dropdown->currentIndex();
     q.bindValue(":key_room", this->room_dropdown_id_vec[dropdown_index]);
   }
+
+  // Start Saftey Check
+  std::string checkerPhrase ((this->ui->addkey_key_type->text()).toStdString() + (this->ui->addkey_storage_location->text()).toStdString());
+  std::string checkerComparisonArray[21] = {"TABLE", "Table", "table", "INTO", "Into", "into", "FROM", "From", "from", "WHERE", "Where", "where", "*", "+", "-", "DROP", "Drop", "drop", "DELETE", "Delete", "delete"}; // SQL command array I assume theres a library for this but ehh, and im sure theres a way to do this case insensitivly
+
+  for (const std::string &text : checkerComparisonArray){
+    if (checkerPhrase.find(text) != std::string::npos) {
+            std::cout << "checkerPhrase" << "\n";
+            std::cout << text << " found" << "\n";
+            return;
+        } else {
+            std::cout << "checkerPhrase" << "\n";
+            std::cout << text << " not found" << "\n";
+    }
+  }
+  // End Saftey Check
   q.exec();
   std::cout << q.lastError().text().toStdString() << std::endl;
   this->deleteLater();

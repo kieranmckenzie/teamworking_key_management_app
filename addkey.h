@@ -6,6 +6,7 @@
 #include <QtSql>
 #include <iostream>
 #include <vector>
+#include <string>
 
 namespace Ui {
 class AddKey;

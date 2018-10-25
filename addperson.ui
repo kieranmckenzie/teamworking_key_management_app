@@ -16,9 +16,9 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>310</x>
      <y>460</y>
-     <width>171</width>
+     <width>341</width>
      <height>32</height>
     </rect>
    </property>
@@ -44,7 +44,7 @@
       <item>
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>Key Type</string>
+         <string>Student Name</string>
         </property>
        </widget>
       </item>
@@ -71,7 +71,7 @@
       <item>
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>Key Room</string>
+         <string>Student ID</string>
         </property>
        </widget>
       </item>
@@ -90,60 +90,6 @@
       </item>
       <item>
        <widget class="QComboBox" name="addkey_room_dropdown"/>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_5">
-      <item>
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Current Holder</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QComboBox" name="addkey_user_dropdown"/>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>Storage Location</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="addkey_storage_location"/>
       </item>
      </layout>
     </item>

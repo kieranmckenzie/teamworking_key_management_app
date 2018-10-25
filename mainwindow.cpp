@@ -82,9 +82,6 @@ MainWindow::MainWindow(QWidget *parent)
   this->tab_buttons.push_back(this->ui->main_keysButton);
   this->tab_buttons.push_back(this->ui->main_peopleButton);
   this->tab_buttons.push_back(this->ui->main_leaseButton);
-
-  std::cout << "Dank memes" << std::endl;
-}
 void MainWindow::release_all_tabs() {
   for (QPushButton *q : this->tab_buttons) {
     q->setChecked(false);
@@ -113,6 +110,7 @@ void MainWindow::on_main_pushButton_clicked() {
   AddKey *addkey = new AddKey(this->model);
   addkey->show();
 }
+
 
 void MainWindow::on_main_addPermissionGroup_clicked() {
   CreatePermissionGroup *cpg = new CreatePermissionGroup(this->model);
