@@ -4,6 +4,7 @@
 class DBHandle {
 public:
   DBHandle();
+  ~DBHandle();
 
   QSqlDatabase db;
 };
