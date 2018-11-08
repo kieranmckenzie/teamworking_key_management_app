@@ -27,6 +27,7 @@ bool AddLease::populate_people() {
   while (q.next()) {
     p->addItem(q.value(q.record().indexOf("users.name")).toString());
   }
+return true;
 }
 
 bool AddLease::update_keys() {

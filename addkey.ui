@@ -11,16 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Add Key</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QDialog{
 	background-color: #4D1F99;
-}
-QComboBox{
-	background-color: #6F4AB1;
-	color: #FFFFFF;
-	font-weight: bold;
 }
 QLabel{
 	font-weight: bold;
