@@ -48,17 +48,31 @@ void CreatePermissionGroup::on_buttonBox_accepted() {
   q.prepare("INSERT INTO permission_groups (name) VALUES (:name)");
   q.bindValue(":name", this->ui->createpermissiongroup_lineEdit->text());
   // Start Saftey Check
-  std::string checkerPhrase (this->ui->createpermissiongroup_lineEdit->text().toStdString());
-  std::string checkerComparisonArray[21] = {"TABLE", "Table", "table", "INTO", "Into", "into", "FROM", "From", "from", "WHERE", "Where", "where", "*", "+", "-", "DROP", "Drop", "drop", "DELETE", "Delete", "delete"}; // SQL command array I assume theres a library for this but ehh, and im sure theres a way to do this case insensitivly
+  std::string checkerPhrase(
+      this->ui->createpermissiongroup_lineEdit->text().toStdString());
+  std::string
+      checkerComparisonArray[21] = {"TABLE", "Table", "table",  "INTO",
+                                    "Into",  "into",  "FROM",   "From",
+                                    "from",  "WHERE", "Where",  "where",
+                                    "*",     "+",     "-",      "DROP",
+                                    "Drop",  "drop",  "DELETE", "Delete",
+                                    "delete"}; // SQL command array I assume
+                                               // theres a library for this but
+                                               // ehh, and im sure theres a way
+                                               // to do this case insensitivly
 
-  for (const std::string &text : checkerComparisonArray){
+  for (const std::string &text : checkerComparisonArray) {
     if (checkerPhrase.find(text) != std::string::npos) {
-            std::cout << "checkerPhrase" << "\n";
-            std::cout << text << " found" << "\n";
-            return;
-        } else {
-            std::cout << "checkerPhrase" << "\n";
-            std::cout << text << " not found" << "\n";
+      std::cout << "checkerPhrase"
+                << "\n";
+      std::cout << text << " found"
+                << "\n";
+      return;
+    } else {
+      std::cout << "checkerPhrase"
+                << "\n";
+      std::cout << text << " not found"
+                << "\n";
     }
   }
   // End Saftey Check
@@ -77,20 +91,19 @@ void CreatePermissionGroup::on_createpermissiongroup_addroom_clicked() {
 
 void CreatePermissionGroup::on_buttonBox_rejected() { this->deleteLater(); }
 
-void CreatePermissionGroup::on_createpermissiongroup_remove_clicked()
-{
-          int offset = ui->createpermissiongroup_listView->currentIndex().row();
-    if (current_selected >= 0 && offset >= 0 ) {
-           ui->createpermissiongroup_rooms->addItem(string_list.at(offset));
-           string_list.removeAt(offset);
-           string_list_model.setStringList(string_list);
-            }
+void CreatePermissionGroup::on_createpermissiongroup_remove_clicked() {
+  int offset = ui->createpermissiongroup_listView->currentIndex().row();
+  if (current_selected >= 0 && offset >= 0) {
+    ui->createpermissiongroup_rooms->addItem(string_list.at(offset));
+    string_list.removeAt(offset);
+    string_list_model.setStringList(string_list);
+  }
 }
 
-void CreatePermissionGroup::on_createpermissiongroup_listView_clicked(const QModelIndex &index)
-{
+void CreatePermissionGroup::on_createpermissiongroup_listView_clicked(
+    const QModelIndex &index) {
 
-    current_selected = index.row();
+  current_selected = index.row();
 
-    std::cout << current_selected << std::endl;
+  std::cout << current_selected << std::endl;
 }

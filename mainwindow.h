@@ -2,11 +2,11 @@
 #define MAINWINDOW_H
 
 #include "addkey.h"
+#include "addlease.h"
+#include "addperson.h"
 #include "createpermissiongroup.h"
 #include "csqlrelationaltablemodel.h"
 #include "dbhandle.h"
-#include "addlease.h"
-#include "addperson.h"
 #include <QMainWindow>
 
 #include <QPushButton>
@@ -23,11 +23,11 @@ enum FilterSelection {
   CurrentHolder,
   StorageLocation,
   Name,
-    StartsBefore,
-    StartsAfter,
-    EndsBefore,
-    EndsAfter,
- KeyID
+  StartsBefore,
+  StartsAfter,
+  EndsBefore,
+  EndsAfter,
+  KeyID
 };
 enum TableSelection { Keys, People, Leases };
 enum HeaderSortState { None, Ascending, Descending };
@@ -62,14 +62,13 @@ private slots:
 
   void on_main_overdueButton_clicked();
 
-
   void on_main_deleteCurrent_clicked();
 
 private:
   HeaderSortState header_sort_state;
   int last_sorted_header;
   Ui::MainWindow *ui;
-  DBHandle* db;
+  DBHandle *db;
   CSqlRelationalTableModel *model;
   void setup_search_combobox(TableSelection const);
   FilterSelection from_qstring(QString const) const;
@@ -90,7 +89,6 @@ private:
   void gen_search_sql_query_people();
   void gen_search_sql_query_leases();
   void search();
-
 };
 
 #endif // MAINWINDOW_H

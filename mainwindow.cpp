@@ -394,6 +394,7 @@ void MainWindow::on_main_deleteCurrent_clicked() {
     }
     q.exec();
   }
-    QSqlRelationalTableModel *_m =static_cast<QSqlRelationalTableModel*>(ui->main_tableView->model());
-    _m->select();
+  QSqlRelationalTableModel *_m =
+      static_cast<QSqlRelationalTableModel *>(ui->main_tableView->model());
+  _m->select();
 }

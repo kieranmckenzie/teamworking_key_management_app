@@ -1,11 +1,10 @@
 #include "addkey.h"
 #include "ui_addkey.h"
-#include <iostream>
-#include <string>
-#include <cstring>
-#include <locale>
 #include <algorithm>
-
+#include <cstring>
+#include <iostream>
+#include <locale>
+#include <string>
 
 AddKey::AddKey(QSqlRelationalTableModel *m, QWidget *parent)
     : QDialog(parent), ui(new Ui::AddKey) {
@@ -75,17 +74,32 @@ void AddKey::on_buttonBox_accepted() {
   }
 
   // Start Saftey Check
-  std::string checkerPhrase ((this->ui->addkey_key_type->text()).toStdString() + (this->ui->addkey_storage_location->text()).toStdString());
-  std::string checkerComparisonArray[21] = {"TABLE", "Table", "table", "INTO", "Into", "into", "FROM", "From", "from", "WHERE", "Where", "where", "*", "+", "-", "DROP", "Drop", "drop", "DELETE", "Delete", "delete"}; // SQL command array I assume theres a library for this but ehh, and im sure theres a way to do this case insensitivly
+  std::string checkerPhrase(
+      (this->ui->addkey_key_type->text()).toStdString() +
+      (this->ui->addkey_storage_location->text()).toStdString());
+  std::string
+      checkerComparisonArray[21] = {"TABLE", "Table", "table",  "INTO",
+                                    "Into",  "into",  "FROM",   "From",
+                                    "from",  "WHERE", "Where",  "where",
+                                    "*",     "+",     "-",      "DROP",
+                                    "Drop",  "drop",  "DELETE", "Delete",
+                                    "delete"}; // SQL command array I assume
+                                               // theres a library for this but
+                                               // ehh, and im sure theres a way
+                                               // to do this case insensitivly
 
-  for (const std::string &text : checkerComparisonArray){
+  for (const std::string &text : checkerComparisonArray) {
     if (checkerPhrase.find(text) != std::string::npos) {
-            std::cout << "checkerPhrase" << "\n";
-            std::cout << text << " found" << "\n";
-            return;
-        } else {
-            std::cout << "checkerPhrase" << "\n";
-            std::cout << text << " not found" << "\n";
+      std::cout << "checkerPhrase"
+                << "\n";
+      std::cout << text << " found"
+                << "\n";
+      return;
+    } else {
+      std::cout << "checkerPhrase"
+                << "\n";
+      std::cout << text << " not found"
+                << "\n";
     }
   }
   // End Saftey Check

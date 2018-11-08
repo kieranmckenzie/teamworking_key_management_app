@@ -2,8 +2,8 @@
 #include "calender.h"
 #include "ui_addlease.h"
 
-AddLease::AddLease(
-        QSqlRelationalTableModel *m,        QWidget *parent) : QDialog(parent), ui(new Ui::AddLease) {
+AddLease::AddLease(QSqlRelationalTableModel *m, QWidget *parent)
+    : QDialog(parent), ui(new Ui::AddLease) {
   ui->setupUi(this);
   this->m = m;
   r = ui->rooms;
@@ -29,7 +29,7 @@ bool AddLease::populate_people() {
   while (q.next()) {
     p->addItem(q.value(q.record().indexOf("users.name")).toString());
   }
-return true;
+  return true;
 }
 
 bool AddLease::update_keys() {
@@ -102,14 +102,14 @@ int AddLease::get_id_of_selected_user() {
   q.prepare("SELECT id FROM users WHERE name LIKE :name ");
   q.bindValue(":name", p->currentText());
   if (!q.exec()) {
-      qDebug() << q.lastError();
+    qDebug() << q.lastError();
   }
   int index = q.record().indexOf("id");
   q.first();
   int answer = q.value(index).toInt();
-  if (answer == -1 ) {
-      std::cout << "Error" << std::endl;
-      throw;
+  if (answer == -1) {
+    std::cout << "Error" << std::endl;
+    throw;
   }
   return answer;
 }
@@ -128,10 +128,9 @@ void AddLease::on_buttonBox_accepted() {
   q.bindValue(":u_id", _k);
   q.exec();
   std::cout << q.lastQuery().toStdString() << std::endl;
-  std::cout << q.lastError().text().toStdString() << std::endl
-               ;
-   qDebug() << q.lastError();
-m->select();
+  std::cout << q.lastError().text().toStdString() << std::endl;
+  qDebug() << q.lastError();
+  m->select();
   // key_data.key_room=rooms.id ");
 }
 

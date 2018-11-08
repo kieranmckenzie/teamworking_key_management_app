@@ -19,8 +19,7 @@ DBHandle::DBHandle() {
   this->db = db;
 }
 
-DBHandle::~DBHandle()
-{
-    qDebug() << "DB destructor fired";
-   this->db.close();
+DBHandle::~DBHandle() {
+  qDebug() << "DB destructor fired";
+  this->db.close();
 }
