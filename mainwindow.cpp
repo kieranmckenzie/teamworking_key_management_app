@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
 void MainWindow::populate_table(TableSelection const t) {
   this->model = new CSqlRelationalTableModel(ui->main_result_count_label, this);
   // this->model->setEditStrategy(QSqlTableModel::OnFieldChange);
@@ -59,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent)
   ui->setupUi(this);
   this->last_sorted_header = 0;
   this->header_sort_state = HeaderSortState::None;
-  this->db = DBHandle();
+  this->db =new  DBHandle();
   this->populate_table(this->current_table_selection);
   ui->main_tableView->setItemDelegate(
       new QSqlRelationalDelegate(ui->main_tableView));
@@ -104,7 +105,9 @@ void MainWindow::onHeaderClicked(int const logical_index) {
   ui->main_tableView->sortByColumn(logical_index);
 }
 
-MainWindow::~MainWindow() { delete ui; }
+MainWindow::~MainWindow() {
+    delete db;
+    delete ui; }
 
 void MainWindow::on_main_pushButton_clicked() {
 
@@ -143,32 +146,32 @@ void MainWindow::gen_search_sql_query_leases() {
   case Any:
     s = "relTblAl_1.name LIKE '%" + t + "%' OR relTblAl_2.name LIKE '%" + t +
         "%' OR leases.key_id LIKE '%" + t + "%' OR leases.id LIKE '%" + t +
-        "%';";
+        "%'";
     break;
   case CurrentHolder:
-    s = "relTblAl_1.name LIKE '%" + t + "%';";
+    s = "relTblAl_1.name LIKE '%" + t + "%'";
     break;
   case Room:
-    s = "relTblAl_2.name LIKE '%" + t + "%';";
+    s = "relTblAl_2.name LIKE '%" + t + "%'";
     break;
   case KeyID:
 
-    s = "leases.key_id IS '%" + t + "%';";
+    s = "leases.key_id IS '%" + t + "%'";
     break;
     // Todo
     // Accomodate alternative timedate formats
-  case BeforeStart:
-    s = " leases.start_ts LESS THAN '%" + t + "%';";
+  case StartsBefore:
+    s = " leases.start_ts <= '" + t + "'";
     break;
-  case AfterStart:
-    s = "leases.start_ts GREATER THAN '%" + t + "%';";
+  case StartsAfter:
+    s = "leases.start_ts >= '" + t + "'";
     break;
 
-  case BeforeEnd:
-    s = "leases.end_ts LESS THAN '%" + t + "%';";
+  case EndsBefore:
+    s = "leases.end_ts <= '" + t + "'";
     break;
-  case AfterEnd:
-    s = "leases.end_ts GREATER THAN '%" + t + "%';";
+  case EndsAfter:
+    s = "leases.end_ts >= '" + t + "'";
     break;
     //
   default:
@@ -271,10 +274,10 @@ void MainWindow::setup_leases_search_combobox() {
   ui->main_comboBox->addItem("Key ID");
   ui->main_comboBox->addItem("Leased to");
   ui->main_comboBox->addItem("Room");
-  ui->main_comboBox->addItem("Started since");
-  ui->main_comboBox->addItem("Started before");
-  ui->main_comboBox->addItem("Ended since");
-  ui->main_comboBox->addItem("Ended before");
+  ui->main_comboBox->addItem("Starts before");
+  ui->main_comboBox->addItem("Starts after");
+  ui->main_comboBox->addItem("Ends before");
+  ui->main_comboBox->addItem("Ends after");
 }
 
 inline FilterSelection MainWindow::from_qstring(QString const qs) const {
@@ -290,14 +293,14 @@ inline FilterSelection MainWindow::from_qstring(QString const qs) const {
     return StorageLocation;
   if (qs == "Name")
     return Name;
-  if (qs == "Started since")
-    return BeforeEnd;
-  if (qs == "Started before")
-    return BeforeStart;
-  if (qs == "Ended since")
-    return AfterEnd;
-  if (qs == "Ended before")
-    return AfterStart;
+  if (qs == "Starts before")
+    return StartsBefore;
+  if (qs == "Starts after")
+    return StartsAfter;
+  if (qs == "Ends after")
+    return EndsBefore;
+  if (qs == "Ends before")
+    return EndsAfter;
   if (qs == "KeyID" || qs == "Key ID")
     return KeyID;
   // Crash fix?
@@ -357,4 +360,16 @@ void MainWindow::on_main_pushButton_add_lease_clicked()
 
     AddLease *leases = new AddLease();
     leases->show();
+}
+
+void MainWindow::on_main_overdueButton_clicked()
+{
+    this->on_main_leaseButton_clicked();
+    QDateTime dt =    dt.currentDateTime();
+    ui->main_searchEntry->setText( dt.toString());
+    ui->main_comboBox->setCurrentIndex(7);
+    this->on_main_filterButton_clicked();
+
+
+
 }

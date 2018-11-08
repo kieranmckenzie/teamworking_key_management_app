@@ -22,11 +22,11 @@ enum FilterSelection {
   CurrentHolder,
   StorageLocation,
   Name,
-  BeforeStart,
-  AfterStart,
-  BeforeEnd,
-  AfterEnd,
-  KeyID
+    StartsBefore,
+    StartsAfter,
+    EndsBefore,
+    EndsAfter,
+ KeyID
 };
 enum TableSelection { Keys, People, Leases };
 enum HeaderSortState { None, Ascending, Descending };
@@ -59,11 +59,13 @@ private slots:
 
   void on_main_pushButton_add_lease_clicked();
 
+  void on_main_overdueButton_clicked();
+
 private:
   HeaderSortState header_sort_state;
   int last_sorted_header;
   Ui::MainWindow *ui;
-  DBHandle db;
+  DBHandle* db;
   CSqlRelationalTableModel *model;
   void setup_search_combobox(TableSelection const);
   FilterSelection from_qstring(QString const) const;
@@ -84,6 +86,7 @@ private:
   void gen_search_sql_query_people();
   void gen_search_sql_query_leases();
   void search();
+
 };
 
 #endif // MAINWINDOW_H
