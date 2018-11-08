@@ -71,8 +71,8 @@ QLineEdit{
    <widget class="QLabel" name="main_result_count_label">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>439</y>
+      <x>980</x>
+      <y>440</y>
       <width>63</width>
       <height>31</height>
      </rect>
@@ -182,20 +182,7 @@ QLineEdit{
      <string>Leases</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="main_test">
-    <property name="geometry">
-     <rect>
-      <x>990</x>
-      <y>438</y>
-      <width>84</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Test</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="main_pushButton_2">
+   <widget class="QPushButton" name="main_pushButton_add_person">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -206,6 +193,45 @@ QLineEdit{
     </property>
     <property name="text">
      <string>Add Person</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="main_resultsLabel">
+    <property name="geometry">
+     <rect>
+      <x>900</x>
+      <y>440</y>
+      <width>67</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Results</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="main_pushButton_add_lease">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>440</y>
+      <width>92</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add Lease</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="main_overdueButton">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>8</y>
+      <width>84</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Overdue</string>
     </property>
    </widget>
   </widget>

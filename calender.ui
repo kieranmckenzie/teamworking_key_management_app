@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AddPerson</class>
- <widget class="QDialog" name="AddPerson">
+ <class>Calender</class>
+ <widget class="QDialog" name="Calender">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>472</width>
+    <height>284</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,27 +29,14 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QCalendarWidget" name="calendarWidget">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>100</y>
-     <width>113</width>
-     <height>25</height>
+     <x>10</x>
+     <y>10</y>
+     <width>456</width>
+     <height>171</height>
     </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>100</y>
-     <width>67</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>TextLabel</string>
    </property>
   </widget>
  </widget>
@@ -58,7 +45,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>AddPerson</receiver>
+   <receiver>Calender</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -74,7 +61,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>AddPerson</receiver>
+   <receiver>Calender</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

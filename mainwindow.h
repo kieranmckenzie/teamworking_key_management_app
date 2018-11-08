@@ -5,7 +5,9 @@
 #include "createpermissiongroup.h"
 #include "csqlrelationaltablemodel.h"
 #include "dbhandle.h"
+#include "addlease.h"
 #include <QMainWindow>
+
 #include <QPushButton>
 #include <iostream>
 #include <vector>
@@ -51,6 +53,10 @@ private slots:
   void on_main_searchEntry_returnPressed();
 
   void on_main_leaseButton_clicked();
+
+  void on_main_pushButton_add_person_clicked();
+
+  void on_main_pushButton_add_lease_clicked();
 
 private:
   HeaderSortState header_sort_state;

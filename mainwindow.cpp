@@ -42,18 +42,16 @@ void MainWindow::load_people_table() {
 void MainWindow::load_leases_table() {
 
   this->model->setTable("leases");
-  this->model->setHeaderData(0, Qt::Horizontal, tr("Id"));
-  this->model->setHeaderData(1, Qt::Horizontal, tr("Username"));
-  this->model->setHeaderData(2, Qt::Horizontal, tr("Another"));
-  this->model->setHeaderData(3, Qt::Horizontal, tr("Another"));
-  this->model->setHeaderData(4, Qt::Horizontal, tr("Another"));
-  this->model->setHeaderData(5, Qt::Horizontal, tr("Another"));
-  this->model->setRelation(1, QSqlRelation("users", "id", "name"));
-  this->model->setRelation(2, QSqlRelation("rooms", "id", "name"));
-  this->model->setHeaderData(2, Qt::Horizontal, tr("Rooms"));
+  //this->model->setHeaderData(0, Qt::Horizontal, tr("Id"));
+  this->model->setHeaderData(1, Qt::Horizontal, tr("Key ID"));
+  this->model->setHeaderData(2, Qt::Horizontal, tr("Start"));
+  this->model->setHeaderData(3, Qt::Horizontal, tr("End"));
+  this->model->setHeaderData(4, Qt::Horizontal, tr("Username"));
+  this->model->setRelation(4, QSqlRelation("users", "id", "name"));
   this->setup_search_combobox(TableSelection::Leases);
   this->current_table_selection = TableSelection::Leases;
 }
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -344,4 +342,17 @@ void MainWindow::on_main_leaseButton_clicked() {
     this->populate_table(TableSelection::Leases);
     this->model->select();
   }
+}
+
+void MainWindow::on_main_pushButton_add_person_clicked()
+{
+
+}
+
+void MainWindow::on_main_pushButton_add_lease_clicked()
+
+{
+
+    AddLease *leases = new AddLease();
+    leases->show();
 }

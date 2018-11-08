@@ -26,6 +26,10 @@ private slots:
 
   void on_buttonBox_rejected();
 
+  void on_createpermissiongroup_remove_clicked();
+
+  void on_createpermissiongroup_listView_clicked(const QModelIndex &index);
+
 private:
   bool validate_dropdown_input(QString *error);
   bool validate_name_input(QString *error);
@@ -35,6 +39,7 @@ private:
   QStringListModel string_list_model;
   QStringList string_list;
   QSqlRelationalTableModel *main_window_model;
+  int current_selected = -1;
 };
 
 #endif // CREATEPERMISSIONGROUP_H

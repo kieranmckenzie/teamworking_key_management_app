@@ -76,3 +76,21 @@ void CreatePermissionGroup::on_createpermissiongroup_addroom_clicked() {
 }
 
 void CreatePermissionGroup::on_buttonBox_rejected() { this->deleteLater(); }
+
+void CreatePermissionGroup::on_createpermissiongroup_remove_clicked()
+{
+          int offset = ui->createpermissiongroup_listView->currentIndex().row();
+    if (current_selected >= 0 && offset >= 0 ) {
+           ui->createpermissiongroup_rooms->addItem(string_list.at(offset));
+           string_list.removeAt(offset);
+           string_list_model.setStringList(string_list);
+            }
+}
+
+void CreatePermissionGroup::on_createpermissiongroup_listView_clicked(const QModelIndex &index)
+{
+
+    current_selected = index.row();
+
+    std::cout << current_selected << std::endl;
+}
