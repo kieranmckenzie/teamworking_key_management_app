@@ -2,8 +2,10 @@
 #include "calender.h"
 #include "ui_addlease.h"
 
-AddLease::AddLease(QWidget *parent) : QDialog(parent), ui(new Ui::AddLease) {
+AddLease::AddLease(
+        QSqlRelationalTableModel *m,        QWidget *parent) : QDialog(parent), ui(new Ui::AddLease) {
   ui->setupUi(this);
+  this->m = m;
   r = ui->rooms;
   k = ui->keys;
   p = ui->people;
@@ -129,7 +131,7 @@ void AddLease::on_buttonBox_accepted() {
   std::cout << q.lastError().text().toStdString() << std::endl
                ;
    qDebug() << q.lastError();
-
+m->select();
   // key_data.key_room=rooms.id ");
 }
 

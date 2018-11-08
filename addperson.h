@@ -2,6 +2,7 @@
 #define ADDPERSON_H
 
 #include <QDialog>
+#include <QSqlRelationalTableModel>
 
 namespace Ui {
 class AddPerson;
@@ -12,7 +13,9 @@ class AddPerson : public QDialog
     Q_OBJECT
 
 public:
-    explicit AddPerson(QWidget *parent = 0);
+    explicit AddPerson(
+            QSqlRelationalTableModel* m,
+            QWidget *parent = 0);
     ~AddPerson();
 
 private slots:
@@ -20,6 +23,7 @@ private slots:
 
 private:
     Ui::AddPerson *ui;
+            QSqlRelationalTableModel* m;
 };
 
 #endif // ADDPERSON_H

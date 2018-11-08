@@ -12,6 +12,7 @@
 #include <QPushButton>
 #include <iostream>
 #include <vector>
+#define __OVERDUE_OFFSET 7
 namespace Ui {
 class MainWindow;
 }
@@ -60,6 +61,9 @@ private slots:
   void on_main_pushButton_add_lease_clicked();
 
   void on_main_overdueButton_clicked();
+
+
+  void on_main_deleteCurrent_clicked();
 
 private:
   HeaderSortState header_sort_state;

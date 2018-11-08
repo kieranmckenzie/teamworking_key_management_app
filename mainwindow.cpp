@@ -43,7 +43,7 @@ void MainWindow::load_people_table() {
 void MainWindow::load_leases_table() {
 
   this->model->setTable("leases");
-  //this->model->setHeaderData(0, Qt::Horizontal, tr("Id"));
+  // this->model->setHeaderData(0, Qt::Horizontal, tr("Id"));
   this->model->setHeaderData(1, Qt::Horizontal, tr("Key ID"));
   this->model->setHeaderData(2, Qt::Horizontal, tr("Start"));
   this->model->setHeaderData(3, Qt::Horizontal, tr("End"));
@@ -53,14 +53,13 @@ void MainWindow::load_leases_table() {
   this->current_table_selection = TableSelection::Leases;
 }
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   this->current_table_selection = TableSelection::Keys;
   ui->setupUi(this);
   this->last_sorted_header = 0;
   this->header_sort_state = HeaderSortState::None;
-  this->db =new  DBHandle();
+  this->db = new DBHandle();
   this->populate_table(this->current_table_selection);
   ui->main_tableView->setItemDelegate(
       new QSqlRelationalDelegate(ui->main_tableView));
@@ -106,8 +105,9 @@ void MainWindow::onHeaderClicked(int const logical_index) {
 }
 
 MainWindow::~MainWindow() {
-    delete db;
-    delete ui; }
+  delete db;
+  delete ui;
+}
 
 void MainWindow::on_main_pushButton_clicked() {
 
@@ -347,29 +347,53 @@ void MainWindow::on_main_leaseButton_clicked() {
   }
 }
 
-void MainWindow::on_main_pushButton_add_person_clicked()
-{
-    AddPerson* addperson = new AddPerson();
-    addperson->show();
-
+void MainWindow::on_main_pushButton_add_person_clicked() {
+  AddPerson *addperson = new AddPerson(this->model);
+  addperson->show();
 }
 
 void MainWindow::on_main_pushButton_add_lease_clicked()
 
 {
 
-    AddLease *leases = new AddLease();
-    leases->show();
+  AddLease *leases = new AddLease(this->model);
+  leases->show();
 }
 
-void MainWindow::on_main_overdueButton_clicked()
-{
-    this->on_main_leaseButton_clicked();
-    QDateTime dt =    dt.currentDateTime();
-    ui->main_searchEntry->setText( dt.toString());
-    ui->main_comboBox->setCurrentIndex(7);
-    this->on_main_filterButton_clicked();
+void MainWindow::on_main_overdueButton_clicked() {
+  this->on_main_leaseButton_clicked();
+  QDateTime dt = dt.currentDateTime();
+  ui->main_searchEntry->setText(dt.toString());
+  ui->main_comboBox->setCurrentIndex(__OVERDUE_OFFSET);
+  this->on_main_filterButton_clicked();
+}
 
+void MainWindow::on_main_deleteCurrent_clicked() {
+  QItemSelectionModel *m = ui->main_tableView->selectionModel();
+  if (!m->hasSelection()) {
+    return;
+  }
+  QModelIndexList row = m->selectedRows();
+  for (QModelIndex i : row) {
+    int k = i.data().toInt();
+    QSqlQuery q;
+    switch (current_table_selection) {
+    case TableSelection::Keys:
+      q.prepare("DELETE FROM key_data WHERE id = :id");
+      q.bindValue(":id", k);
 
-
+      break;
+    case TableSelection::People:
+      q.prepare("DELETE FROM users WHERE id = :id");
+      q.bindValue(":id", k);
+      break;
+    case TableSelection::Leases:
+      q.prepare("DELETE FROM leases WHERE id = :id");
+      q.bindValue(":id", k);
+      break;
+    }
+    q.exec();
+  }
+    QSqlRelationalTableModel *_m =static_cast<QSqlRelationalTableModel*>(ui->main_tableView->model());
+    _m->select();
 }
