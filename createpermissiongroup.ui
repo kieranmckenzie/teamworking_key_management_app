@@ -22,12 +22,12 @@ QComboBox{
 	color: #FFFFFF;
 	font-weight: bold;
 }
-QPushButton {
+/*QPushButton {
 	background-color: #6F4AB1;
 	color: #FFFFFF;
 	font-weight: bold;
     min-width: 80px;
-}
+}*/
 QLineEdit{
 	color: #000000;
 	background-color: #FFFFFF;
@@ -110,7 +110,7 @@ QLineEdit{
     <rect>
      <x>90</x>
      <y>50</y>
-     <width>67</width>
+     <width>81</width>
      <height>17</height>
     </rect>
    </property>
@@ -128,7 +128,7 @@ QLineEdit{
     </rect>
    </property>
    <property name="text">
-    <string>Person</string>
+    <string>Room</string>
    </property>
   </widget>
  </widget>

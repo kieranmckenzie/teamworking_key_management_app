@@ -30,12 +30,12 @@ QDateTimeEdit{
 	font-weight: bold;
 	background-color: #FFFFFF;
 }
-#cal1, #cal2 {
+#cal1,#cal2l{
 	background-color: #6F4AB1;
 	color: #FFFFFF;
 	font-weight: bold;
-    min-width: 80px;
-}</string>
+}
+</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
