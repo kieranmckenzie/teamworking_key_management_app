@@ -346,6 +346,8 @@ void MainWindow::on_main_leaseButton_clicked() {
 
 void MainWindow::on_main_pushButton_add_person_clicked()
 {
+    AddPerson* addperson = new AddPerson();
+    addperson->show();
 
 }
 

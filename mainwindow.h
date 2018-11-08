@@ -6,6 +6,7 @@
 #include "csqlrelationaltablemodel.h"
 #include "dbhandle.h"
 #include "addlease.h"
+#include "addperson.h"
 #include <QMainWindow>
 
 #include <QPushButton>
