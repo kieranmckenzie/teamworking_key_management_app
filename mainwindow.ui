@@ -33,6 +33,7 @@ QComboBox{
 }
 QLabel{
 	font-weight: bold;
+	color: white;
 }
 QLineEdit{
 	color: #000000;
